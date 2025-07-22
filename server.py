@@ -15,7 +15,19 @@ def get_client(sock):
 
 def main(addr):
     server_socket = start_server(addr)
-    client_socket = get_client()
+    client_socket = get_client(server_socket)
+
+    while True:
+        request = (client_socket.recv(1024)).decode()
+
+        if request == "EXIT":
+            break
+        
+        reply = "ok " + request
+        client_socket.send(reply.encode())
+
+    server_socket.close()
+    client_socket.close()
 
 if __name__ == '__main__':
     port = 8851
