@@ -1,4 +1,5 @@
 import socket
+import keyboard
 
 def start_server(addr):
     sock = socket.socket()
@@ -16,16 +17,15 @@ def get_client(sock):
 def main(addr):
     server_socket = start_server(addr)
     client_socket = get_client(server_socket)
-
-    while True:
-        request = (client_socket.recv(1024)).decode()
-
-        if request == "EXIT":
-            break
-        
-        reply = "ok " + request
-        client_socket.send(reply.encode())
-
+    with open("C://Users//User//Documents//vs code python//Remote Control//check.txt" , "w") as my_file:
+        while True:
+            request = (client_socket.recv(256)).decode()
+            print(request)
+            if request:
+                print(request)
+                my_file.write(request)
+                my_file.flush()
+    
     server_socket.close()
     client_socket.close()
 
